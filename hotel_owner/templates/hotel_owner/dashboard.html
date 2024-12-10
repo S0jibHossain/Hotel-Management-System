@@ -1,0 +1,174 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ hotel_owner.hotel_name }} Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
+    <style>
+        body {
+            background-image: url('{{ hotel_owner.profile_picture.url }}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #333;
+        }
+        .navbar {
+            background-color: rgba(0, 123, 255, 0.9);
+        }
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+        .main-content {
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 70px;
+        }
+        .dashboard-card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity:80%;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .card-title {
+            font-size: 1.5rem;
+            color: #007bff;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .navbar-toggler-icon {
+            color: white;
+        }
+        .profile-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+        .dropdown-menu {
+            right: 0;
+            left: auto;
+        }
+        .welcome-message {
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .welcome-message h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+        footer {
+            background-color: rgba(248, 249, 250, 0.9);
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+            margin-top: 300px;
+        }
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="#">Welcome, {{ hotel_owner.hotel_name }}</a> <!-- Dynamic Hotel Name -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <!-- Profile Icon and Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if hotel_owner.profile_picture %}
+                            <img src="{{ hotel_owner.profile_picture.url }}" alt="Profile Picture" class="profile-icon">
+                        {% else %}
+                            <img src="{% static 'default-profile.png' %}" alt="Default Profile Picture" class="profile-icon">
+                        {% endif %}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'profile' %}">View Profile</a>
+                        <a class="dropdown-item" href="{% url 'hotel_owner_dashboard' %}">Dashboard</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'hotel_owner/login' %}">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Welcome Message -->
+        <div class="welcome-message dashboard-card">
+            <h2>{{ hotel_owner.hotel_name }} Dashboard</h2>
+            <p>Manage your hotel efficiently with the tools below.</p>
+        </div>
+
+        <!-- Example Dashboard Cards -->
+        <div class="row justify-content-center">
+            <div class="col-md-5 mb-4">
+                <div class="dashboard-card">
+                    <h5 class="card-title"><i class="fas fa-bed mr-2"></i> Manage Rooms</h5>
+                    <p>Add, update, or delete room details.</p>
+                    <a href="{% url 'manage_rooms' %}" class="btn btn-primary btn-block">Go</a>
+                </div>
+            </div>
+            <div class="col-md-5 mb-4">
+                <div class="dashboard-card">
+                    <h5 class="card-title"><i class="fas fa-calendar-check mr-2"></i> View Bookings</h5>
+                    <p>Track customer bookings and reservations.</p>
+                    <a href="{% url 'view_bookings' %}" class="btn btn-primary btn-block">Go</a>
+                </div>
+            </div>
+            <div class="col-md-5 mb-4">
+                <div class="dashboard-card">
+                    <h5 class="card-title"><i class="fas fa-user-cog mr-2"></i> View Rattings & Reviews</h5>
+                    <p>Track customer rattings and reviews to upadte the hotel services.</p>
+                    <a href="{% url 'profile' %}" class="btn btn-primary btn-block">Go</a>
+                </div>
+            </div>
+            <div class="col-md-5 mb-4">
+                <div class="dashboard-card">
+                    <h5 class="card-title"><i class="fas fa-map-marked-alt mr-2"></i> Contact Us</h5>
+                    <p>Don't hessitate to contact us if anything you need.</p>
+                    <a href="#" class="btn btn-primary btn-block">Go</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background-color: #4B77BE; color: white; border: none;">
+        <p>&copy;Copyright & all rights at {{ hotel_owner.hotel_name }}, 2024 </p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
